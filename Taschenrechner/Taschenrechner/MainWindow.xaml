@@ -41,29 +41,28 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="btnAC" Content="AC" Grid.Row="0" Grid.Column="0" Margin="0" Foreground="Red" Background="#9E9E9E" FontSize="20" Click="AC_Button"/>
-            <Button x:Name="btnLoeschen" Content="&#x2190;" Grid.Row="0" Grid.Column="1" Margin="0" Foreground="Green" Background="#9E9E9E" FontSize="20" Click="LoeschenButton"/>
-            <Button x:Name="btcKlammer" Content="()" Grid.Row="0" Grid.Column="2" Margin="0" Foreground="Green" Background="#9E9E9E" FontSize="20"/>
+            <Button x:Name="btnAC" Content="AC" Grid.Row="0" Grid.Column="0" Margin="0" Foreground="Red" Background="#9E9E9E" FontSize="20" Click="ACButton"/>
+            <Button x:Name="btnBackspace" Content="&#x2190;" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="0" Foreground="Green" Background="#9E9E9E" FontSize="20" Click="BackspaceButton"/>
             <Button x:Name="btnGeteilt" Content="/" Grid.Row="0" Grid.Column="3" Margin="0" Foreground="Green" Background="#9E9E9E" FontSize="20" Click="OperatorenButtons"/>
 
-            <Button x:Name="btn_7" Content="7" Grid.Row="1" Grid.Column="0" Margin="0" Foreground="Black" Background="#C2C2C2" FontSize="20" Click="ZahlenButtonGeklickt"/>
-            <Button x:Name="btn_8" Content="8" Grid.Row="1" Grid.Column="1" Margin="0" Foreground="Black" Background="#C2C2C2" FontSize="20" Click="ZahlenButtonGeklickt"/>
-            <Button x:Name="btn_9" Content="9" Grid.Row="1" Grid.Column="2" Margin="0" Foreground="Black" Background="#C2C2C2" FontSize="20" Click="ZahlenButtonGeklickt"/>
+            <Button x:Name="btn_7" Content="7" Grid.Row="1" Grid.Column="0" Margin="0" Foreground="Black" Background="#C2C2C2" FontSize="20" Click="ZahlenButtons"/>
+            <Button x:Name="btn_8" Content="8" Grid.Row="1" Grid.Column="1" Margin="0" Foreground="Black" Background="#C2C2C2" FontSize="20" Click="ZahlenButtons"/>
+            <Button x:Name="btn_9" Content="9" Grid.Row="1" Grid.Column="2" Margin="0" Foreground="Black" Background="#C2C2C2" FontSize="20" Click="ZahlenButtons"/>
             <Button x:Name="btnMal" Content="x" Grid.Row="1" Grid.Column="3" Margin="0" Foreground="Green" Background="#9E9E9E" FontSize="20" Click="OperatorenButtons"/>
 
-            <Button x:Name="btn_4" Content="4" Grid.Row="2" Grid.Column="0" Margin="0" Foreground="Black" Background="#C2C2C2" FontSize="20" Click="ZahlenButtonGeklickt"/>
-            <Button x:Name="btn_5" Content="5" Grid.Row="2" Grid.Column="1" Margin="0" Foreground="Black" Background="#C2C2C2" FontSize="20" Click="ZahlenButtonGeklickt"/>
-            <Button x:Name="btn_6" Content="6" Grid.Row="2" Grid.Column="2" Margin="0" Foreground="Black" Background="#C2C2C2" FontSize="20" Click="ZahlenButtonGeklickt"/>
+            <Button x:Name="btn_4" Content="4" Grid.Row="2" Grid.Column="0" Margin="0" Foreground="Black" Background="#C2C2C2" FontSize="20" Click="ZahlenButtons"/>
+            <Button x:Name="btn_5" Content="5" Grid.Row="2" Grid.Column="1" Margin="0" Foreground="Black" Background="#C2C2C2" FontSize="20" Click="ZahlenButtons"/>
+            <Button x:Name="btn_6" Content="6" Grid.Row="2" Grid.Column="2" Margin="0" Foreground="Black" Background="#C2C2C2" FontSize="20" Click="ZahlenButtons"/>
             <Button x:Name="btnMinus" Content="-" Grid.Row="2" Grid.Column="3" Margin="0" Foreground="Green" Background="#9E9E9E" FontSize="20" Click="OperatorenButtons"/>
 
-            <Button x:Name="btn_1" Content="1" Grid.Row="3" Grid.Column="0" Margin="0" Foreground="Black" Background="#C2C2C2" FontSize="20" Click="ZahlenButtonGeklickt"/>
-            <Button x:Name="btn_2" Content="2" Grid.Row="3" Grid.Column="1" Margin="0" Foreground="Black" Background="#C2C2C2" FontSize="20" Click="ZahlenButtonGeklickt"/>
-            <Button x:Name="btn_3" Content="3" Grid.Row="3" Grid.Column="2" Margin="0" Foreground="Black" Background="#C2C2C2" FontSize="20" Click="ZahlenButtonGeklickt"/>
+            <Button x:Name="btn_1" Content="1" Grid.Row="3" Grid.Column="0" Margin="0" Foreground="Black" Background="#C2C2C2" FontSize="20" Click="ZahlenButtons"/>
+            <Button x:Name="btn_2" Content="2" Grid.Row="3" Grid.Column="1" Margin="0" Foreground="Black" Background="#C2C2C2" FontSize="20" Click="ZahlenButtons"/>
+            <Button x:Name="btn_3" Content="3" Grid.Row="3" Grid.Column="2" Margin="0" Foreground="Black" Background="#C2C2C2" FontSize="20" Click="ZahlenButtons"/>
             <Button x:Name="btn_Plus" Content="+" Grid.Row="3" Grid.Column="3" Margin="0" Foreground="Green" Background="#9E9E9E" FontSize="20" Click="OperatorenButtons"/>
 
-            <Button x:Name="btn_Komma" Content="," Grid.Row="4" Grid.Column="0" Margin="0" Foreground="Black" Background="#C2C2C2" FontSize="20" Click="ZahlenButtonGeklickt"/>
-            <Button x:Name="btn_0" Content="0" Grid.Row="4" Grid.Column="1" Margin="0" Foreground="Black" Background="#C2C2C2" FontSize="20" Click="ZahlenButtonGeklickt"/>
-            <Button x:Name="btn_Gleich" Content="=" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Margin="0" Foreground="Wheat" Background="#32CD32" FontSize="20" Click="GleichheitszeichenButton"/>
+            <Button x:Name="btn_Komma" Content="," Grid.Row="4" Grid.Column="0" Margin="0" Foreground="Black" Background="#C2C2C2" FontSize="20" Click="KommaButton"/>
+            <Button x:Name="btn_0" Content="0" Grid.Row="4" Grid.Column="1" Margin="0" Foreground="Black" Background="#C2C2C2" FontSize="20" Click="ZahlenButtons"/>
+            <Button x:Name="btn_Gleichheitszeichen" Content="=" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Margin="0" Foreground="Wheat" Background="#32CD32" FontSize="20" Click="GleichheitszeichenButton"/>
         </Grid>
     </Grid>
 </Window>

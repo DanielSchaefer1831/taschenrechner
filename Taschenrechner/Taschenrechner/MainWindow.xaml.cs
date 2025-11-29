@@ -17,126 +17,160 @@ namespace Taschenrechner
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
-    {
-        private bool isNewNumber = true;
-        private double ersterWert = 0;
-        private string operatorZeichen = "0";
-
+    { 
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        // Methode für Klicks auf Zahlen- und Komma-Buttons:
-        private void ZahlenButtonGeklickt(object sender, RoutedEventArgs e)
+        private double ersterWert;
+        private string operatorZeichen;
+        private bool isNewNumber = true;
+
+
+        // Methode bzw. Logik für Zahlen-Buttons: 
+        private void ZahlenButtons(object sender, RoutedEventArgs e)
         {
             Button taste = (Button)sender;
-
             string ziffer = (string)taste.Content;
 
-            if (ziffer == ",")
+            if (isNewNumber || Display.Text == "0")
             {
-                if (!Display.Text.Contains(","))
+                if (!string.IsNullOrWhiteSpace(operatorZeichen) && Display.Text.Contains(operatorZeichen)) // Prüft auf gesetzten Operator und startet die Eingabe der zweiten Zahl.
                 {
-                    Display.Text += ziffer;
+                    Display.Text += ziffer; // Start der 2. Zahl -> anhängen.
                 }
+                else
+                {             
+                    Display.Text = ziffer; // Start der 1. Zahl -> ersetzen.
+                }
+
+                isNewNumber = false;
             }
             else
             {
-                if (Display.Text == "0")
+                Display.Text += ziffer;
+            }
+        }
+
+        // Methode bzw. Logik für Komma-Button:
+        private void KommaButton(object sender, RoutedEventArgs e)
+        {
+            Button taste = (Button)sender;
+            string komma = (string)taste.Content;
+
+            if (!Display.Text.Contains(","))
+            {
+                if (isNewNumber)
                 {
-                    Display.Text = ziffer;
+                    Display.Text = "0" + komma;
+                    isNewNumber = false;
                 }
                 else
                 {
-                    Display.Text += ziffer;
+                    Display.Text += komma;
                 }
             }
         }
 
-        // Methode für Klick auf AC-Button:
-        private void AC_Button(object sender, RoutedEventArgs e)
+        // Methode bzw. Logik für AllClear-Button:
+        private void ACButton(object sender, RoutedEventArgs e)
         {
-            Display.Text = "0";
-            isNewNumber = true;
+            Display.Text = "0"; // Display zurücksetzen auf Startwert "0".
+
+            isNewNumber = true; // Erwartet eine neue Zahl bzw. die "0" wird ersetzt.
+
+            ersterWert = 0; // Löscht alle gespeicherten Zwischenergebnisse.
+
+            operatorZeichen = ""; // Stellt sicher, dass kein alter Operator mehr aktiv ist.
         }
 
-        // Methode, um die letzte eingegebene Ziffer/Komma zu löschen:
-        private void LoeschenButton(object sender, RoutedEventArgs e)
+        // Methode bzw. Logik für Backspace-Button:
+        private void BackspaceButton(object sender, RoutedEventArgs e)
         {
             if (Display.Text.Length > 1)
             {
-                Display.Text = Display.Text.Substring(0, Display.Text.Length - 1);
+                Display.Text = Display.Text.Substring(0, Display.Text.Length - 1); // Entfernt das letzte Zeichen.
             }
             else
             {
-                Display.Text = "0";
+                Display.Text = "0"; // Nur ein Zeichen oder 0 übrig -> Display wird auf Startwert "0" gesetzt.
             }
+
+            isNewNumber = false;
         }
 
-        // Methode für Operatoren-Logik:
+        // Methode bzw. Logik für die Operatoren-Buttons:
         private void OperatorenButtons(object sender, RoutedEventArgs e)
         {
             Button taste = (Button)sender;
-            string geklickterOperator = (string)taste.Content;
+            string neuerOperator = (string)taste.Content;
 
-            ersterWert = Convert.ToDouble(Display.Text.Replace(",", "."));
 
-            operatorZeichen = geklickterOperator;
-
-            isNewNumber = true;
-
-            Display.Text = ersterWert + operatorZeichen;
-        }
-
-        // Methode für Gleichheitszeichen-Logik:
-        private void GleichheitszeichenButton(object sender, RoutedEventArgs e)
-        {
-            double zweiterWert;
-            double ergebnis = 0;
-
-            
-            // Zweiter Wert nach dem Operator:
-            int operatorIndex = Display.Text.LastIndexOf(operatorZeichen);
-
-            string anzeigeTextOhneOperator;
-            if (operatorIndex > 0 && operatorZeichen != "")
+            if (!string.IsNullOrWhiteSpace(operatorZeichen) && !isNewNumber)
             {
-                anzeigeTextOhneOperator = Display.Text.Substring(operatorIndex + operatorZeichen.Length);
+                FühreBerechnungAus();
             }
             else
             {
-                anzeigeTextOhneOperator = Display.Text;
+                ersterWert = Convert.ToDouble(Display.Text.Replace(",", "."));
             }
 
+            operatorZeichen = neuerOperator;
 
-            // Zweite Zahl in einen Double konvertieren:
-            if (string.IsNullOrWhiteSpace(anzeigeTextOhneOperator))
+            isNewNumber = true;
+
+            // Zeigt das Zwischenergebnis und den neuen Operator an.
+            Display.Text = ersterWert.ToString(CultureInfo.CurrentCulture) + operatorZeichen;
+        }
+
+        // Methode bzw. Logik für das Gleichheitszeichen-Button:
+        private void GleichheitszeichenButton(object sender, RoutedEventArgs e)
+        {
+            // Fehlerprüfung hinzugefügt, da der Benutzer jederzeit "=" klicken kann.
+            if (string.IsNullOrWhiteSpace(operatorZeichen))
+            {
+                return;
+            }
+
+            FühreBerechnungAus();
+
+            // Nach "=" ist die Kette beendet und Operator löschen.
+            operatorZeichen = "";
+        }
+
+        private void FühreBerechnungAus()
+        {
+
+            double zweiterWert;
+            double ergebnis = 0;
+
+
+            // Zweiten Wert ermitteln:
+            int operatorIndex = Display.Text.IndexOf(operatorZeichen);
+            string zweiteZahlAlsString = Display.Text.Substring(operatorIndex + operatorZeichen.Length);
+
+            if (string.IsNullOrWhiteSpace(zweiteZahlAlsString))
             {
                 zweiterWert = ersterWert;
             }
             else
             {
-                zweiterWert = Convert.ToDouble(anzeigeTextOhneOperator.Replace(",", "."));
+                zweiterWert = Convert.ToDouble(zweiteZahlAlsString.Replace(",", "."));
             }
 
-
-
-            // BERECHNUNG:
-            switch(operatorZeichen)
+            // Berechnung:
+            switch (operatorZeichen)
             {
                 case "+":
                     ergebnis = ersterWert + zweiterWert;
                     break;
-
                 case "-":
                     ergebnis = ersterWert - zweiterWert;
                     break;
-
-                case "*":
+                case "x":
                     ergebnis = ersterWert * zweiterWert;
                     break;
-
                 case "/":
                     if (zweiterWert != 0)
                     {
@@ -144,23 +178,20 @@ namespace Taschenrechner
                     }
                     else
                     {
-                        Display.Text = "Error! 0 kann man nicht teilen!";
+                        Display.Text = "Error: Division durch Null";
                         isNewNumber = true;
+                        operatorZeichen = "";
                         return;
                     }
                     break;
-                
-                default: // Wenn man keinen Operator eingesetzt hat:
+                default:
                     ergebnis = zweiterWert;
                     break;
             }
 
-            Display.Text  = ergebnis.ToString(new CultureInfo("de-DE"));
-
-            ersterWert = ergebnis;
-
-            isNewNumber = true;
-            operatorZeichen = "";
+            Display.Text = ergebnis.ToString("N", CultureInfo.CurrentCulture); // Zeigt das berechnete Zwischenergebnis im de-DE-Format (Komma) an.
+            ersterWert = ergebnis; // Speichert das Ergebnis als neuen Startwert für die fortlaufende Rechnung (Kettenrechnung).
+            isNewNumber = true; // Setzt den Zustand zurück, damit die nächste Zahl das Zwischenergebnis überschreibt.
         }
     }   
 }
